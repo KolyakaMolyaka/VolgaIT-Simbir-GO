@@ -17,10 +17,10 @@ RUN apt-get update
 RUN apt-get install -y netcat
 
 # copy project
-COPY . . 
+COPY . .
 # fix bug with restx 
 RUN python ./flask_restx_script.py
-RUN chmod +x ./entrypoint.sh 
+RUN chmod +x ./entrypoint.sh
 
 # run entrypoint.sh
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
