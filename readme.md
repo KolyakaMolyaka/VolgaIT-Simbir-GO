@@ -147,3 +147,15 @@ FLASK_SQLALCHEMY_DATABASE_URI=postgresql://postgres:1@localhost:5432/simbir_go_a
 /VolgaIT/tests$ py ./test_user_accounts.py
 /VolgaIT/tests$ py ./test_user_transport.py
 ```
+```
+├───app
+│   ├───...
+│   └───...
+├───tests
+│   │──test_accounts.py
+│   │──test_admin_accounts.py
+│   │──test_accounts.py
+│   └──test_payments.py
+
+
+```

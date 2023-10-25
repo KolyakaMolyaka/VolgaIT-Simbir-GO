@@ -23,4 +23,18 @@ def create_app(testing=False):
 	from app.apis import api
 	api.init_app(app)
 
+	# команда создания БД
+	import click
+	from flask.cli import with_appcontext
+
+	@click.command('init-db')
+	@with_appcontext
+	def init_db_command():
+		db.drop_all()
+		db.create_all()
+		db.session.commit()
+		click.echo('Database initialized.')
+
+	app.cli.add_command(init_db_command)
+
 	return app
