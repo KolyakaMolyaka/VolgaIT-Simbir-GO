@@ -82,6 +82,27 @@ docker compose up --build -d
 
 Документация Swagger: http://127.0.0.1:5000
 
+# Подключение к Postgres через pgAdmin4
+pgAdmin4: http://127.0.0.1:5050
+- *Логин*: noemail@noemail.com
+- *Пароль*: root
+
+Добавьте сервер с базой данных:
+1. Выберите Add New Server и укажите:
+   - General: 
+     - db
+   - Connection
+     - Host name/address: db
+     - Port: 5432
+     - Maintenance database: simbir_go
+     - Username: user
+     - Password: password
+2. Нажмите Save
+Подключенный сервер с базой данных находится:
+*Servers -> Databases(2) -> simbir_go*
+
+
+
 
 
 # Тестирование
