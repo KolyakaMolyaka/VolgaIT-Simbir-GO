@@ -77,6 +77,7 @@ Swagger (http://127.0.0.1:5000/)
 
 # Запуск проекта 
 ```
+chmod +x entrypoint.sh
 docker compose up --build -d
 ```
 
@@ -90,7 +91,7 @@ pgAdmin4: http://127.0.0.1:5050
 Добавьте сервер с базой данных:
 1. Выберите Add New Server и укажите:
    - General: 
-     - db
+     - Name: db
    - Connection
      - Host name/address: db
      - Port: 5432
