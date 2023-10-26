@@ -77,6 +77,7 @@ Swagger (http://127.0.0.1:5000/)
 
 # Запуск проекта 
 ```
+chmod +x entrypoint.sh
 docker compose up --build -d
 ```
 
