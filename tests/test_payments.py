@@ -2,7 +2,6 @@ import sys
 
 sys.path.append('../')
 
-from http import HTTPStatus
 import unittest
 from app.app import create_app
 from app.extensions.database import db

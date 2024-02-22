@@ -10,7 +10,7 @@ authorizations = {
 
 api = Api(
 	prefix='/api/',
-	title='Volga IT Simbir.GO приложение',
+	title='Volga IT Simbir.GO приложение.',
 	description= \
 		'Сервис по аренде автомобилей под названием Simbir.GO. Сервис предлагает '
 		'аренду не только автомобилей, но и мотоциклов и самокатов. Также вы можете '

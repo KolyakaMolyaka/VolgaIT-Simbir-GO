@@ -1,7 +1,7 @@
 from flask import Flask
 
 
-def create_app(testing=True):
+def create_app(testing=False):
 	app = Flask(__name__)
 
 	if testing:

@@ -1,3 +1,11 @@
+import logging
+
+logging.basicConfig(filename='logs',
+					filemode='a',
+					format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+					datefmt='%H:%M:%S',
+					level=logging.DEBUG)
+
 from flask import jsonify
 from http import HTTPStatus
 
@@ -33,7 +41,9 @@ class RegisterUser(Resource):
 		request_data = auth_reqparser.parse_args()
 		username = request_data.get('username')
 		password = request_data.get('password')
+
 		process_registration_request(username, password)
+
 		response = jsonify({
 			'message': 'sign up successfully'
 		})
@@ -49,6 +59,7 @@ class LoginUser(Resource):
 	def post(self):
 		"""Получение нового JWT токена."""
 
+		logging.log(level=logging.DEBUG, msg="Пользователь хочет авторизоваться")
 		request_data = auth_reqparser.parse_args()
 		username = request_data.get('username')
 		password = request_data.get('password')
@@ -63,6 +74,7 @@ class LoginUser(Resource):
 		response.status_code = HTTPStatus.OK
 		response.headers['Cache-Control'] = 'no-store'
 		response.headers['Pragma'] = 'no-cache'
+		logging.log(level=logging.DEBUG, msg="Пользователь получает ответ на запрос авторизации")
 
 		return response
 

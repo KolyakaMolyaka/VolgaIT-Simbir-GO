@@ -1,3 +1,4 @@
+import logging
 from http import HTTPStatus
 from flask import jsonify
 from flask_restx import Namespace, Resource, marshal
@@ -44,7 +45,7 @@ class CreateTransport(Resource):
 		day_price = request_data.get('dayPrice', user_transport_model.get('dayPrice').default)
 
 		transport = process_user_create_new_transport(can_be_rented, transport_type, model, color, identifier, latitude,
-										  longitude, description, minute_price, day_price)
+													  longitude, description, minute_price, day_price)
 
 		response = jsonify(marshal(transport, user_transport_model))
 		response.status_code = HTTPStatus.CREATED
@@ -127,11 +128,13 @@ class TransportAuthInfo(Resource):
 	@public_route
 	def get(self, transport_id):
 		"""Получение информации о транспорте по id."""
+		logging.log(level=logging.DEBUG, msg="Пользователь хочет получить информацию о транспорте по id.")
 
 		transport = process_user_get_transport_info(transport_id)
 
 		response = jsonify(marshal(transport, owner_transport_model))
 
 		response.status_code = HTTPStatus.OK
+		logging.log(level=logging.DEBUG, msg='Пользователь получил ответ на запрос об информации транспорта по id.')
 
 		return response

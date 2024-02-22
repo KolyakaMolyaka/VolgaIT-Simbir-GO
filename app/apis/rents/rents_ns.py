@@ -1,3 +1,4 @@
+import logging
 from http import HTTPStatus
 from flask import jsonify
 from flask_jwt_extended import jwt_required
@@ -32,6 +33,8 @@ class FreeForRentTransportList(Resource):
 	def get(self):
 		"""Получение транспорта, доступного для аренды."""
 
+
+		logging.log(level=logging.DEBUG, msg='Пользователь хочет получить информацию о транспорте для аренды')
 		request_args = free_for_rent_transport_reqparser.parse_args()
 
 		latitude = request_args.get('lat')
@@ -44,6 +47,9 @@ class FreeForRentTransportList(Resource):
 		transports_info = [marshal(t, owner_transport_model) for t in transports]
 		response = jsonify(transports_info)
 		response.status_code = HTTPStatus.OK
+
+		logging.log(level=logging.DEBUG, msg=f'Пользователь получил ответ на запрос об информацию ТС для аренды: {len(transports)} ТС')
+
 
 		return response
 

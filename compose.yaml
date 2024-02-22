@@ -2,10 +2,15 @@ version: '3.8'
 
 services:
   web:
-    container_name: web
     build: .
+    container_name: web
     env_file:
       - ./app/.env
+    volumes:
+      - type: bind
+        source: ./
+        target: /usr/src/app
+
     ports:
       - 5000:5000
     networks:

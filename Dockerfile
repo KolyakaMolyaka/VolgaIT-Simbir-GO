@@ -8,7 +8,6 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update
 RUN pip install --upgrade pip
 
-COPY . .
-RUN pip install -r requirements.txt
+COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
