@@ -123,10 +123,10 @@ class UpdateUser(Resource):
 		"""Обновление своего аккаунта."""
 
 		request_data = auth_reqparser.parse_args()
-		username = request_data.get('username')
-		password = request_data.get('password')
+		new_username = request_data.get('username')
+		new_password = request_data.get('password')
 
-		user = process_update_user_request(username, password)
+		user = process_update_user_request(new_username, new_password)
 
 		user_info = marshal(user, user_model)
 		response = jsonify({

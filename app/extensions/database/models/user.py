@@ -18,7 +18,7 @@ class User(db.Model):
 	def set_password(self, password):
 		self.password = generate_password_hash(password)
 
-	def check_password(self, password):
+	def is_correct_password(self, password):
 		""" Проверка, совпадает ли переданный пароль с настоящим """
 		return check_password_hash(self.password, password)
 
