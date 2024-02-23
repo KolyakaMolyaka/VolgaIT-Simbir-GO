@@ -1,10 +1,13 @@
+import logging
 from random import choice, randint
+from app.extensions.database.models import Transport
+import random
 
 
-def generate_n_transports(n: int):
+def generate_n_transports(n: int, max_users: int) -> None:
 	"""
-	Создание n ТС
-	:param n: количество транспортных средст
+	Создание n ТС в БД
+	:param n: количество транспортных средств
 	:return:
 	"""
 	def gen_random_identifier():
@@ -16,7 +19,6 @@ def generate_n_transports(n: int):
 		]
 		return ''.join(identifier)
 
-	transports = []
 	for _ in range(n):
 		can_be_rented = True
 		transport_type = choice(['Car', 'Bike', 'Scooter'])
@@ -30,9 +32,6 @@ def generate_n_transports(n: int):
 		minute_price = float(randint(1000, 3000))
 		day_price = float(randint(minute_price * 60 * 9, minute_price * 60 * 12))
 
-		from app.extensions.database.models import Transport
-		import random
-
 		transport = Transport(
 			can_be_rented=can_be_rented,
 			transport_type=transport_type,
@@ -44,10 +43,12 @@ def generate_n_transports(n: int):
 			longitude=longitude,
 			minute_price=minute_price,
 			day_price=day_price,
-			owner_id=random.randint(0, 2000)
+			owner_id=random.randint(1, max_users)
 		)
-		transport.save()
+		try:
+			transport.save()
+		except Exception as e:
+			logging.log(level=logging.DEBUG, msg=f'Ошибка создания ТС {description}.')
+		else:
+			logging.log(level=logging.DEBUG, msg=f'ТС "{description}" создано.')
 
-		transports.append(transport)
-
-	return transports

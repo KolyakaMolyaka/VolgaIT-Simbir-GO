@@ -4,6 +4,7 @@ from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required
 
 from app.core.payments.replenish_balance_logic import process_replenish_user_balance
+
 payments_ns = Namespace(
 	name='Payment controller',
 	description='Взаимодействие с балансом аккаунта',
@@ -30,4 +31,3 @@ class ReplenishBalance(Resource):
 		})
 		response.status_code = HTTPStatus.OK
 		return response
-

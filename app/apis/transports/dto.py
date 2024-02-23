@@ -12,8 +12,8 @@ user_transport_model = Model('Transport', {
 	'description': fields.String(required=False, description='описание транспорта', example='Лучше всех мерсов'),
 	'latitude': fields.Float(required=True, description='географическая широта местонахождения транспорта'),
 	'longitude': fields.Float(required=True, description='географическая долгота местонахождения транспорта'),
-	'minutePrice': fields.Float(required=False, description='цена аренды за минуту', example=1399.99),
-	'dayPrice': fields.Float(required=False, description='цена аренды за сутки', example=7999.99)
+	'minutePrice': fields.Float(attribute='minute_price', required=False, description='цена аренды за минуту', example=1399.99),
+	'dayPrice': fields.Float(attribute='day_price', required=False, description='цена аренды за сутки', example=7999.99)
 })
 
 owner_transport_model = user_transport_model.clone('AdminTransport', {
