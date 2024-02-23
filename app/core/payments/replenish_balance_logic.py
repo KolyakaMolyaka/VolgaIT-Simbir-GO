@@ -1,24 +1,18 @@
-from http import HTTPStatus
-from flask import abort
 from flask_jwt_extended import current_user
-from app.extensions.database.models import User
+from .replenish_strategy_factory import ReplenishStrategyFactory
+from .replenish_strategy import ReplenishStrategy
 
 
-def process_replenish_user_balance(user_id: int):
-	# админ может добавить баланс всем
-	if current_user.is_admin:
-		user = User.query.get(user_id)
-		if not user:
-			abort(HTTPStatus.NOT_FOUND, f'Пользователем с id = {user_id} не найден.')
+def process_replenish_user_balance(user_id: int, money_amount: int):
+	"""
+	Добавление баланса пользователю в количестве денежных единиц
+	:param user_id: id пользователя, которому нужно пополнить баланс
+	:param money_amount: количество денежных единиц, на которые нужно пополнить баланс
+	:return:
+	"""
 
-		user.balance += 250_000
-		user.save()
-		return
-
-	# обычный пользователь может добавить баланс только себе
-	if current_user.id != user_id:
-		abort(HTTPStatus.FORBIDDEN,
-			  'Пользователь, не обладающий правами администратора, может пополнить баланс только себе.')
-
-	current_user.balance += 250_000
-	current_user.save()
+	# получение стратегии пополнения баланса
+	strategy_type = 'admin' if current_user.is_admin else 'user'
+	strategy: ReplenishStrategy = ReplenishStrategyFactory.get_strategy(strategy_type)
+	# пополнение баланса согласно стратегии
+	strategy.replenish_balance(user_id, money_amount)

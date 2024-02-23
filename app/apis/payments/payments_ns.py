@@ -25,7 +25,8 @@ class ReplenishBalance(Resource):
 	def post(self, user_id):
 		"""Пополнение баланса пользователя на 250000 денежных единиц."""
 
-		process_replenish_user_balance(user_id)
+		MONEY_AMOUNT = 250_000
+		process_replenish_user_balance(user_id, money_amount=MONEY_AMOUNT)
 		response = jsonify({
 			'message': f'Баланс пользователя с id = {user_id} пополнен на 250 тысяч единиц.'
 		})
