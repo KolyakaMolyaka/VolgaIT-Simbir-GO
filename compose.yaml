@@ -1,55 +1,88 @@
+# версия Docker Compose.
 version: '3.8'
 
+
+# Используемые контейнеры.
 services:
   web:
-    build: .
+
+    # Определение имени контейнера.
     container_name: web
+    # Сборка из Dockerfile в текущей папке.
+    build: .
+    # Передача контейнеру переменных окружения из файла.
     env_file:
       - ./app/.env
+    # Монтирование папки в контейнер для разработки.
+    # Так изменения могут вносится в проект сразу. БЕЗ новой сборки контейнера.
     volumes:
       - type: bind
-        source: ./
-        target: /usr/src/app
-
+        source: ./ # монтирование текущей папки
+        target: /usr/src/app # каталог, куда монтируется папка из source
+    # Установка точки входа для контейнера.
+    entrypoint: "/usr/src/app/entrypoint.sh"
+    # Проброс портов из сети в контейнер.
     ports:
       - 5000:5000
+    # Определение сетей, в которых используется контейнер.
     networks:
       - appnet
       - internet
+    # Определение зависимости сервиса. Запуск контейнера после запуска БД.
     depends_on:
       - db
+    working_dir: "/usr/src/app"
+    # Передача контейнеру переменных окружения.
+    environment:
+      PYTHONDONTWRITEBYTECODE: 1
+      PYTHONUNBUFFERED: 1
+
 
   pgadmin:
+    # Определение имени контейнера.
     container_name: pgadmin
+    # Определение образа контейнера.
     image: dpage/pgadmin4
+    # Передача контейнеру переменных окружения.
     environment:
       PGADMIN_DEFAULT_EMAIL: noemail@noemail.com
       PGADMIN_DEFAULT_PASSWORD: root
+    # Проброс портов из сети в контейнер.
     ports:
       - 5050:80
+    # Определение сетей, в которых используется контейнер.
     networks:
       - internet
       - appnet
+    # Определение зависимости сервиса. Запуск контейнера после запуска БД.
     depends_on:
       - db
   db:
+    # Определение имени контейнера.
     container_name: db
+    # Определение образа контейнера.
     image: postgres:13
+    # Определение именного хранилища для БД.
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    # Передача контейнеру переменных окружения.
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=simbir_go
+    # Проброс портов из сети в контейнер.
     ports:
       - 5432:5432
+    # Определение сетей, в которых используется контейнер.
     networks:
       - appnet
 
 
+# Используемые хранилища данных.
 volumes:
   postgres_data:
 
+# Использованные сети.
 networks:
   internet:
     name: internet
